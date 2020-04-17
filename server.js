@@ -6,9 +6,11 @@ const port = process.env.PORT || 3000
 
 app.use(express.static(__dirname + "/public"))
 
-let clients = 0
+const MAX_CLIENTS = 3;
+let clients = 0;
 
 io.on('connection', function (socket) {
+
     // socket.on("NewClient", function () {
     //     if (clients < 2) {
             // if (clients == 1) {
@@ -19,9 +21,27 @@ io.on('connection', function (socket) {
     //         this.emit('SessionActive')
     //     clients++;
     // })
-    socket.on('offer', (offer) => {
-      console.log('Local Description: ' + offer);
-    })
+
+    socket.on('ready', function() {
+      socket.emit('ready', socket.id);
+    });
+    socket.on('offer', function (id, message) {
+      socket.to(id).emit('offer', socket.id, message);
+      console.log('Local Description server.js: ' + message);
+    });
+    socket.on('answer', function (id, message) {
+      socket.to(id).emit('answer', socket.id, message);
+    });
+    socket.on('candidate', function (id, message) {
+      socket.to(id).emit('candidate', socket.id, message);
+    });
+    socket.on('disconnect', function() {
+      socket.emit('bye', socket.id);
+    });
+    
+    // socket.on('offer', function(message) {
+    //   console.log('Local Description: ' + message);
+    // })
     // socket.on('Answer', SendAnswer)
     // socket.on('disconnect', Disconnect)
 })

@@ -130,7 +130,7 @@ function getUserMediaError(error) {
 }
 
 function getUserMediaSuccess(stream) {
-  if (localVideo instanceof HTMLVideoELement) {
+  if (localVideo instanceof HTMLVideoElement) {
     !localVideo.scrObject && (localVideo.srcObject = stream)
   }
   socket.emit('ready');

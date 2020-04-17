@@ -1,8 +1,7 @@
 let socket = io()
 
-const localVideo = document.querySelector('video#localVideo');
-// const video2 = document.querySelector('video#video2');
-// const video3 = document.querySelector('video#video3');
+const localVideo = document.querySelector('.localVideo');
+const remoteVideos = document.querySelector('.remoteVideos');
 
 const peerConnections = {};
 

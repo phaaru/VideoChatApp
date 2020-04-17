@@ -1,0 +1,18 @@
+{
+  "name": "videgaming",
+  "version": "0.0.2",
+  "description": "Video Chat and Gaming web app",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.3",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js",
+    "test": "nodemon server.js"
+  },
+  "author": "Mayank Gupta",
+  "license": "ISC"
+}

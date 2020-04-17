@@ -42,7 +42,7 @@ socket.on('ready', (id) => {
   if (!(localVideo instanceof HTMLVideoElement) || !localVideo.srcObject) {
     return;
   }
-  const peerConnection = new RTCPeerConnection(config);
+  const peerConnection = new RTCPeerConnection();
   peerConnections[id] = peerConnection;
   if (localVideo instanceof HTMLVideoElement) {
     peerConnection.addStream(localVideo.srcObject);
@@ -63,7 +63,7 @@ socket.on('ready', (id) => {
 })
 
 socket.on('offer', function (id, description) {
-  const peerConnection = new RTCPeerConnection(config);
+  const peerConnection = new RTCPeerConnection();
   peerConnections[id] = peerConnection;
   if (localVideo instanceof HTMLVideoElement) {
     peerConnection.addStream(localVideo.srcObject);

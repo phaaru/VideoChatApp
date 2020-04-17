@@ -27,7 +27,7 @@ io.on('connection', function (socket) {
     });
     socket.on('offer', function (id, message) {
       socket.to(id).emit('offer', socket.id, message);
-      console.log('Local Description server.js: ' + message);
+      console.log('Local Description server.js: ' + socket.id);
     });
     socket.on('answer', function (id, message) {
       socket.to(id).emit('answer', socket.id, message);

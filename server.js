@@ -1,8 +1,6 @@
 const credentials = require('./credentials');
 const express = require('express');
 const app = express();
-let server
-let port;
 if (credentials.key && credentials.cert) {
   const https = require('https');
   server = https.createServer(credentials, app);
@@ -36,26 +34,26 @@ io.on('connection', function (socket) {
     // })
 
     socket.on('ready', function() {
-      socket.emit('ready', socket.id);
+      socket.broadcast.emit('ready', socket.id);
       console.log("ready emit with socket id : " + socket.id)
     });
     socket.on('offer', function (id, message) {
+      // socket.emit('offer', socket.id, message)
       socket.to(id).emit('offer', socket.id, message)
-      // socket.to(id).emit('offer', socket.id, message)
       console.log('offer emit with socket ' + id + 'message' + message);
     });
     socket.on('answer', function (id, message) {
-      // socket.to(id).emit('answer', socket.id, message);
       socket.to(id).emit('answer', socket.id, message);
+      // socket.emit('answer', socket.id, message);
       console.log('answer emit with socket ' + id + 'message' + message);
     });
     socket.on('candidate', function (id, message) {
+      // socket.emit('candidate', socket.id, message);
       socket.to(id).emit('candidate', socket.id, message);
-      // socket.to(id).emit('candidate', socket.id, message);
       // console.log('candidate emit with socket ' + id + 'message' + message);
     });
     socket.on('disconnect', function() {
-      socket.emit('bye', socket.id);
+      socket.broadcast.emit('bye', socket.id);
       console.log('disconnect emit with socket ' + socket.id);
     });
     

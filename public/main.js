@@ -51,7 +51,7 @@ socket.on('ready', (id) => {
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(function () {
       socket.emit('offer', id, peerConnection.localDescription);
-      console.log('offer emit socket id: ' + id);
+      console.log('offer emit socket to id: ' + id + 'from socket id:' + socket.id);
     });
   peerConnection.onaddstream = event => handleRemoteStreamAdded(event.stream, id);
 
@@ -77,7 +77,7 @@ socket.on('offer', function (id, description) {
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(function () {
       socket.emit('answer', id, peerConnection.localDescription);
-      console.log('answer emit socket id: ' + id);
+      console.log('answer emit socket to id: ' + id + 'from socket id:' + socket.id);
 
     });
   peerConnection.onaddstream = event => handleRemoteStreamAdded(event.stream, id);

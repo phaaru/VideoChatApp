@@ -1,6 +1,6 @@
 {
-  "name": "videgaming",
-  "version": "0.0.2",
+  "name": "videogaming",
+  "version": "0.1.2",
   "description": "Video Chat and Gaming web app",
   "main": "server.js",
   "dependencies": {
@@ -14,5 +14,13 @@
     "test": "nodemon server.js"
   },
   "author": "Mayank Gupta",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phaaru/VideoChatApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/phaaru/VideoChatApp/issues"
+  },
+  "homepage": "https://github.com/phaaru/VideoChatApp#readme"
 }

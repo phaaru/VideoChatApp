@@ -1,4 +1,4 @@
-let socket = io()
+let socket = io.connect(window.location.origin);
 
 const localVideo = document.querySelector('.localVideo');
 const remoteVideos = document.querySelector('.remoteVideos');
@@ -42,7 +42,7 @@ socket.on('ready', (id) => {
   if (!(localVideo instanceof HTMLVideoElement) || !localVideo.srcObject) {
     return;
   }
-  const peerConnection = new RTCPeerConnection();
+  const peerConnection = new RTCPeerConnection(config);
   peerConnections[id] = peerConnection;
   if (localVideo instanceof HTMLVideoElement) {
     peerConnection.addStream(localVideo.srcObject);
@@ -51,6 +51,7 @@ socket.on('ready', (id) => {
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(function () {
       socket.emit('offer', id, peerConnection.localDescription);
+      console.log('offer emit socket id: ' + id);
     });
   peerConnection.onaddstream = event => handleRemoteStreamAdded(event.stream, id);
 
@@ -58,12 +59,15 @@ socket.on('ready', (id) => {
   peerConnection.onicecandidate = function (event) {
     if (event.candidate) {
       socket.emit('candidate', id, event.candidate);
+      console.log('onicecandidate socket on ready');
     }
   };
 })
 
 socket.on('offer', function (id, description) {
-  const peerConnection = new RTCPeerConnection();
+  const peerConnection = new RTCPeerConnection(config);
+  console.log('inside offer on ' + id);
+
   peerConnections[id] = peerConnection;
   if (localVideo instanceof HTMLVideoElement) {
     peerConnection.addStream(localVideo.srcObject);
@@ -73,11 +77,16 @@ socket.on('offer', function (id, description) {
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(function () {
       socket.emit('answer', id, peerConnection.localDescription);
+      console.log('answer emit socket id: ' + id);
+
     });
   peerConnection.onaddstream = event => handleRemoteStreamAdded(event.stream, id);
+
+  //stun handling
   peerConnection.onicecandidate = function (event) {
     if (event.candidate) {
       socket.emit('candidate', id, event.candidate);
+      console.log('onicecandidate socket on offer');
     }
   };
 });
@@ -85,10 +94,13 @@ socket.on('offer', function (id, description) {
 socket.on('candidate', function (id, candidate) {
   peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate))
     .catch(e => console.error(e));
+    console.log('inside candidate socket on ' + id);
+
 });
 
 socket.on('answer', function (id, description) {
   peerConnections[id].setRemoteDescription(description);
+  console.log('inside answer socket on ' + id);
 });
 
 socket.on('bye', function (id) {
@@ -134,6 +146,7 @@ function getUserMediaSuccess(stream) {
     !localVideo.scrObject && (localVideo.srcObject = stream)
   }
   socket.emit('ready');
+  console.log('ready emit socket id: ' + socket.id);
 }
 
 function handleRemoteHangup(id) {

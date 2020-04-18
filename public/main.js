@@ -23,21 +23,6 @@ window.onunload = window.onbeforeunload = function () {
   socket.close();
 };
 
-// const peerConnection = new RTCPeerConnection(config);
-
-// navigator.mediaDevices.getUserMedia(constraints)
-//   .then(function (stream) {
-//     localVideo.srcObject = stream
-//     peerConnection.addStream(stream);
-//     peerConnection.createOffer()
-//       .then(sdp => peerConnection.setLocalDescription(sdp))
-//       .then(function () {
-//         console.log('Local Description: ' + peerConnection.localDescription);
-//         socket.emit('offer', peerConnection.localDescription);
-//         console.log('Offer Sent')
-//       })
-//   })
-
 socket.on('ready', (id) => {
   if (!(localVideo instanceof HTMLVideoElement) || !localVideo.srcObject) {
     return;

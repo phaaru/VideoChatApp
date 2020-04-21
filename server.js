@@ -14,7 +14,6 @@ const io = require('socket.io')(server)
 
 const engine = require('./public/game')
 
-
 app.use(express.static(__dirname + "/public"))
 
 // const MAX_CLIENTS = 3;
@@ -24,17 +23,18 @@ let gameInterval, updateInterval
 
 function pirateName() {
   var names = [
-    'Blackbeard',
-    'Jimmy',
-    'Roger',
-    'Carlos',
-    'Juanita',
-    'Sophie',
-    'Boris',
-    'Jenny',
-    'Doris',
-    'Philippe',
-    'Jack'
+    'Yeda Anna',
+    'Chota Chatri',
+    'Vasooli Bhai',
+    'Ded-Futiya',
+    'Perpendicooler',
+    'Mogambo',
+    'Gabbar Singh',
+    'Circuit',
+    'Don',
+    'Anna Seth',
+    'Crime Master Gogo',
+    'Ramadhir Singh'
   ]
   return names[Math.floor(Math.random() * names.length)]
 }
@@ -132,6 +132,5 @@ io.on('connection', function (socket) {
   	}
   });
 })
-
 
 server.listen(port, () => console.log(`Active on ${port} port`))

@@ -200,10 +200,10 @@ function clientStartGame() {
 
       // set score info
       var playerCount = Object.keys(players).length
-      document.getElementById('playerCount').innerHTML = String(playerCount) + " pirate" + (playerCount > 1 ? 's' : '') + " on the salty seas"
+      document.getElementById('playerCount').innerHTML = String(playerCount) + " gunda" + (playerCount > 1 ? 's' : '') + " on the salty seas"
       var scores = ''
       Object.values(players).sort((a,b) => (b.score - a.score)).forEach((player, index) => {
-        scores += "<p><span style='border-bottom: 1px solid " + player.colour + ";'>" + player.name + "</span> has " + player.score + " doubloons</p>"
+        scores += "<p><span style='border-bottom: 1px solid " + player.colour + ";'>" + player.name + "</span> has " + player.score + " sikke</p>"
       })
       document.getElementById('scores').innerHTML = scores
 

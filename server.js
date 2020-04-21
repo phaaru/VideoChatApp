@@ -8,7 +8,7 @@ if (credentials.key && credentials.cert) {
 } else {
   const http = require('http');
   server = http.createServer(app);
-  port = 8080;
+  port = 3000;
 }
 const io = require('socket.io')(server)
 

@@ -1,15 +1,16 @@
 const credentials = require('./credentials');
 const express = require('express');
 const app = express();
-if (credentials.key && credentials.cert) {
-  const https = require('https');
-  server = https.createServer(credentials, app);
-  port = 443;
-} else {
-  const http = require('http');
-  server = http.createServer(app);
-  port = 3000;
-}
+// if (credentials.key && credentials.cert) {
+//   const https = require('https');
+//   server = https.createServer(credentials, app);
+//   port = 443;
+// } else {
+
+const http = require('http');
+server = http.createServer(app);
+port = 3000;
+
 const io = require('socket.io')(server)
 
 const engine = require('./public/game')
@@ -76,9 +77,9 @@ io.on('connection', function (socket) {
   // start game if this is the first player
   if (Object.keys(engine.players).length == 0) {
     engine.shuffleDoubloon()
-  	gameInterval = setInterval(gameLoop, 25)
+    gameInterval = setInterval(gameLoop, 25)
     updateInterval = setInterval(emitUpdates, 40)
-	}
+  }
 
   // get open position
   var posX = 0
@@ -90,30 +91,30 @@ io.on('connection', function (socket) {
 
   // add player to engine.players obj
   engine.players[socket.id] = {
-  	accel: {
-  		x: 0,
-  		y: 0
-  	},
-  	x: posX,
+    accel: {
+      x: 0,
+      y: 0
+    },
+    x: posX,
     y: posY,
-  	colour: engine.stringToColour(socket.id),
-  	score: 0,
+    colour: engine.stringToColour(socket.id),
+    score: 0,
     name: pirateName()
   }
 
-  socket.on('up', function(msg){
+  socket.on('up', function (msg) {
     engine.accelPlayer(socket.id, 0, -1)
   });
 
-  socket.on('down', function(msg) {
+  socket.on('down', function (msg) {
     engine.accelPlayer(socket.id, 0, 1)
   })
 
-  socket.on('left', function(msg){
+  socket.on('left', function (msg) {
     engine.accelPlayer(socket.id, -1, 0)
   });
 
-  socket.on('right', function(msg) {
+  socket.on('right', function (msg) {
     engine.accelPlayer(socket.id, 1, 0)
   });
 
@@ -124,13 +125,13 @@ io.on('connection', function (socket) {
 
     // delete player
     delete engine.players[socket.id]
-  	// end game if there are no engine.players left
-  	if (Object.keys(engine.players).length > 0) {
-    	io.emit('gameStateUpdate', engine.players);
-  	} else {
-  		clearInterval(gameInterval)
+    // end game if there are no engine.players left
+    if (Object.keys(engine.players).length > 0) {
+      io.emit('gameStateUpdate', engine.players);
+    } else {
+      clearInterval(gameInterval)
       clearInterval(updateInterval)
-  	}
+    }
   });
 })
 

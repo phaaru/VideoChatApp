@@ -34,7 +34,8 @@ function pirateName() {
     'Don',
     'Anna Seth',
     'Crime Master Gogo',
-    'Ramadhir Singh'
+    'Ramadhir Singh',
+    'Munna Bhai'
   ]
   return names[Math.floor(Math.random() * names.length)]
 }
